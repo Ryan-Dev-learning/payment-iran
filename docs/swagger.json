@@ -1,0 +1,155 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Payment integration server for Iran gateways.",
+        "title": "Payment Iran API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:9091",
+    "basePath": "/api/v1",
+    "paths": {
+        "/greeting": {
+            "get": {
+                "description": "get greeting message",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "greeting"
+                ],
+                "summary": "Greeting",
+                "responses": {
+                    "200": {
+                        "description": "Hello, World!",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/novinopay/init": {
+            "post": {
+                "description": "Initialize a new payment transaction with NovinoPay",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "novinopay"
+                ],
+                "summary": "Init Transaction",
+                "parameters": [
+                    {
+                        "description": "Transaction Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/novinopay.InitTransactionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/novinopay.InitTransactionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/novinopay.Err"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/novinopay.Err"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "novinopay.Err": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "novinopay.InitTransactionRequest": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "callback_method": {
+                    "type": "string"
+                },
+                "callback_url": {
+                    "type": "string"
+                },
+                "card_pan": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "invoice_id": {
+                    "type": "string"
+                },
+                "merchant_id": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "novinopay.InitTransactionResponse": {
+            "type": "object",
+            "properties": {
+                "authority": {
+                    "type": "string"
+                },
+                "invoice_id": {
+                    "type": "string"
+                },
+                "payment_status": {
+                    "$ref": "#/definitions/novinopay.PaymentStatus"
+                }
+            }
+        },
+        "novinopay.PaymentStatus": {
+            "type": "string",
+            "enum": [
+                "OK",
+                "NOK"
+            ],
+            "x-enum-varnames": [
+                "OK",
+                "NOK"
+            ]
+        }
+    }
+}

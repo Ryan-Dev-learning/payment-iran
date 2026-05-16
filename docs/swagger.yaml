@@ -1,0 +1,102 @@
+basePath: /api/v1
+definitions:
+  novinopay.Err:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  novinopay.InitTransactionRequest:
+    properties:
+      amount:
+        type: integer
+      callback_method:
+        type: string
+      callback_url:
+        type: string
+      card_pan:
+        type: string
+      description:
+        type: string
+      email:
+        type: string
+      invoice_id:
+        type: string
+      merchant_id:
+        type: string
+      mobile:
+        type: string
+      name:
+        type: string
+    type: object
+  novinopay.InitTransactionResponse:
+    properties:
+      authority:
+        type: string
+      invoice_id:
+        type: string
+      payment_status:
+        $ref: '#/definitions/novinopay.PaymentStatus'
+    type: object
+  novinopay.PaymentStatus:
+    enum:
+    - OK
+    - NOK
+    type: string
+    x-enum-varnames:
+    - OK
+    - NOK
+host: localhost:9091
+info:
+  contact: {}
+  description: Payment integration server for Iran gateways.
+  title: Payment Iran API
+  version: "1.0"
+paths:
+  /greeting:
+    get:
+      consumes:
+      - application/json
+      description: get greeting message
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Hello, World!
+          schema:
+            type: string
+      summary: Greeting
+      tags:
+      - greeting
+  /novinopay/init:
+    post:
+      consumes:
+      - application/json
+      description: Initialize a new payment transaction with NovinoPay
+      parameters:
+      - description: Transaction Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/novinopay.InitTransactionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/novinopay.InitTransactionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/novinopay.Err'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/novinopay.Err'
+      summary: Init Transaction
+      tags:
+      - novinopay
+swagger: "2.0"
