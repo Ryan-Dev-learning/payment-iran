@@ -10,7 +10,7 @@ func Setup(router *echo.Echo, handler *handlers.Handlers) {
 	setupV1Routes(router, handler)
 }
 func setupV1Routes(router *echo.Echo, h *handlers.Handlers) {
-	router.GET("/swagger/*", echoSwagger.WrapHandler)
+	router.GET("/swagger/*", echoSwagger.WrapHandlerV3)
 	v1 := router.Group("/api/v1")
 	v1.GET("/greeting", h.GreetingHandler)
 	setupNovinoPayRoutes(v1, h)

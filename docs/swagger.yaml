@@ -7,46 +7,121 @@ definitions:
       message:
         type: string
     type: object
+  novinopay.InitTransactionData:
+    properties:
+      authority:
+        example: 812F739E41057BAC22331918CD5B41C2
+        type: string
+      payment_url:
+        example: https://ipg.novinopay.com/StartPay/812F739E41057BAC22331918CD5B41C2
+        type: string
+      trans_id:
+        example: 337811
+        type: integer
+      wage:
+        example: 0
+        type: integer
+      wage_payer:
+        example: merchant
+        type: string
+    type: object
   novinopay.InitTransactionRequest:
     properties:
       amount:
+        example: 10000
         type: integer
       callback_method:
+        example: GET
         type: string
       callback_url:
+        example: http://localhost:9091/api/v1/novinopay/callback
         type: string
       card_pan:
+        example: "6037861810449774"
         type: string
       description:
+        example: NovinoPay Test
         type: string
       email:
+        example: a@b.com
         type: string
       invoice_id:
+        example: order_123456
         type: string
       merchant_id:
+        example: test
         type: string
       mobile:
+        example: "09121234567"
         type: string
       name:
+        example: ali yari
         type: string
     type: object
   novinopay.InitTransactionResponse:
     properties:
+      data:
+        $ref: '#/definitions/novinopay.InitTransactionData'
+      errors:
+        example: "null"
+      message:
+        example: عملیات موفقیت آمیز
+        type: string
+      status:
+        example: "100"
+        type: string
+    type: object
+  novinopay.VerifyTransactionData:
+    properties:
+      amount:
+        example: 1000
+        type: integer
       authority:
+        example: 812F739E41057BAC22331918CD5B41C2
+        type: string
+      buyer_ip:
+        example: 5.113.185.222
+        type: string
+      card_pan:
+        example: 504172******0613
         type: string
       invoice_id:
+        example: "null"
+      payment_time:
+        example: 1663376322
+        type: integer
+      ref_id:
+        example: "223003535268"
         type: string
-      payment_status:
-        $ref: '#/definitions/novinopay.PaymentStatus'
+      trans_id:
+        example: 337811
+        type: integer
     type: object
-  novinopay.PaymentStatus:
-    enum:
-    - OK
-    - NOK
-    type: string
-    x-enum-varnames:
-    - OK
-    - NOK
+  novinopay.VerifyTransactionRequest:
+    properties:
+      amount:
+        example: 10000
+        type: integer
+      authority:
+        example: 812F739E41057BAC22331918CD5B41C2
+        type: string
+      merchant_id:
+        example: test
+        type: string
+    type: object
+  novinopay.VerifyTransactionResponse:
+    properties:
+      data:
+        $ref: '#/definitions/novinopay.VerifyTransactionData'
+      errors:
+        example: "null"
+      message:
+        example: عمليات موفق
+        type: string
+      status:
+        example: "100"
+        type: string
+    type: object
 host: localhost:9091
 info:
   contact: {}
@@ -97,6 +172,36 @@ paths:
           schema:
             $ref: '#/definitions/novinopay.Err'
       summary: Init Transaction
+      tags:
+      - novinopay
+  /novinopay/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify a payment transaction with NovinoPay
+      parameters:
+      - description: Verification Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/novinopay.VerifyTransactionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/novinopay.VerifyTransactionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/novinopay.Err'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/novinopay.Err'
+      summary: Verify Transaction
       tags:
       - novinopay
 swagger: "2.0"

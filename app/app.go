@@ -31,7 +31,7 @@ func (a *App) Setup() {
 	a.srv = server.New(&a.cfg.Server)
 	//Setup Services
 	client := &http.Client{}
-	novinopaySvc := novinopay.NewSvc(&a.cfg.NovinoPay, client)
+	novinopaySvc := novinopay.NewSvc(a.cfg, client)
 
 	//Setup Handlers
 	handler := handlers.NewHandlers(novinopaySvc)

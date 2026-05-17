@@ -7,4 +7,8 @@ import (
 
 func setupNovinoPayRoutes(group *echo.Group, h *handlers.Handlers) {
 	group.POST("/novinopay/init", h.InitTransactionHandler)
+	group.POST("/novinopay/verify", h.VerifyTransactionHandler)
+
+	// CallBack
+	group.GET("/novinopay/callback", h.InitTransactionCallbackHandler)
 }

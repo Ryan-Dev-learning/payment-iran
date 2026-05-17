@@ -8,6 +8,6 @@ port=9091
 
 [novinopay]
 merchant_id="test"
-callback_url="/novinopay/callback"
+callback_url="/api/v1/novinopay/callback"
 init_transaction_url="https://api.novinopay.com/payment/ipg/v2/request"
 verify_transaction_url="https://api.novinopay.com/payment/ipg/v2/verification"

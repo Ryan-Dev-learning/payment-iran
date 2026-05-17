@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Result</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f9f9f9;
+        }
+        .data-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        .data-value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        .status-ok {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .status-nok {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Details</h1>
+
+        <!-- Callback Data -->
+        <div class="section">
+            <div class="section-title">Callback Information</div>
+            <div class="data-row">
+                <span class="data-label">Status:</span>
+                <span class="data-value {{if eq .Callback.Status "OK"}}status-ok{{else}}status-nok{{end}}">{{.Callback.Status}}</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Authority:</span>
+                <span class="data-value">{{.Callback.Authority}}</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Invoice ID:</span>
+                <span class="data-value">{{.Callback.InvoiceID}}</span>
+            </div>
+        </div>
+
+        <!-- Invoice Data -->
+        <div class="section">
+            <div class="section-title">Invoice Information</div>
+            <div class="data-row">
+                <span class="data-label">Name:</span>
+                <span class="data-value">{{.Invoice.Name}}</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Amount:</span>
+                <span class="data-value">{{.Invoice.Amount}} Rial</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Email:</span>
+                <span class="data-value">{{.Invoice.Email}}</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Mobile:</span>
+                <span class="data-value">{{.Invoice.Mobile}}</span>
+            </div>
+            {{if .Invoice.Description}}
+            <div class="data-row">
+                <span class="data-label">Description:</span>
+                <span class="data-value">{{.Invoice.Description}}</span>
+            </div>
+            {{end}}
+        </div>
+
+        <!-- Verify Data (if successful) -->
+        {{if .Verify}}
+        <div class="section">
+            <div class="section-title">Verification Details</div>
+            <div class="data-row">
+                <span class="data-label">Transaction ID:</span>
+                <span class="data-value">{{.Verify.TransID}}</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Reference ID:</span>
+                <span class="data-value">{{.Verify.RefID}}</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Card PAN:</span>
+                <span class="data-value">{{.Verify.CardPan}}</span>
+            </div>
+        </div>
+        {{end}}
+
+        <div class="footer">
+            Generated on {{.CurrentTime}}
+        </div>
+    </div>
+</body>
+</html>
